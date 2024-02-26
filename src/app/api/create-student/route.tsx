@@ -1,23 +1,43 @@
-// pages/api/create-student/route.tsx
-
 import { prisma } from '../../../../db'; // Adjust the import path as needed
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const { personId, graduationDate } = await req.json();
+        const { firstName, lastName, graduationDate, programIds } = await req.json();
 
-        // Assuming the person already exists and you're just adding student details
-        const newStudent = await prisma.student.create({
+        // First, create a person with type 'S' for student
+        const newPerson = await prisma.person.create({
             data: {
-                PersonID: Number(personId),
-                GraduationDate: new Date(graduationDate)
+                FirstName: firstName,
+                LastName: lastName,
+                type: 'S', // Assuming 'S' represents 'Student'
             },
         });
 
-        return NextResponse.json({response: newStudent}, {status: 200});
+        // Then, create a student entry
+        const newStudent = await prisma.student.create({
+            data: {
+                PersonID: newPerson.PersonID,
+                GraduationDate: new Date(graduationDate),
+                // Additional logic for handling program associations if needed
+            },
+        });
+
+        // Handle program associations if programIds are provided
+        if (programIds && Array.isArray(programIds)) {
+            await Promise.all(programIds.map(programId =>
+                prisma.studentProgram.create({
+                    data: {
+                        PersonID: newPerson.PersonID,
+                        ProgramID: parseInt(programId, 10),
+                    },
+                })
+            ));
+        }
+
+        return NextResponse.json({ student: newStudent }, { status: 200 });
     } catch (error) {
         console.error("Failed to create student: ", error);
-        return NextResponse.json({response: "fail"}, {status: 500});
+        return NextResponse.json({ error: "Failed to create student" }, { status: 500 });
     }
 }

@@ -26,7 +26,6 @@ export default function RootLayout({
                         <Link href={'/'} className="text-gray-600 text-xl font-semibold">University Database</Link>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <a href="/create-person" className="text-gray-600 hover:text-gray-800">Create Person</a>
                         <a href="/create-instructor" className="text-gray-600 hover:text-gray-800">Create Instructor</a>
                         <a href="/create-student" className="text-gray-600 hover:text-gray-800">Create Student</a>
                         <a href="/create-course" className="text-gray-600 hover:text-gray-800">Create Course</a>

@@ -1,28 +1,53 @@
-// pages/api/create-section/route.tsx
-
+// pages/api/sections/create.ts
 import { prisma } from '../../../../db'; // Adjust the import path as needed
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const { daysOfWeek, timeOfDay, location, creditHours, status, courseId, instructorId } = await req.json();
+        const {
+            instructorId,
+            courseId,
+            daysOfWeek,
+            timeOfDay,
+            location,
+            creditHours,
+            status,
+            description,
+            capacity,
+            availableSeats,
+            waitlist,
+            modeOfInstruction,
+            startDate,
+            endDate,
+            component,
+            requirement
+        } = await req.json();
 
-        // Create a new section
+        // Create a section
         const newSection = await prisma.section.create({
             data: {
+                InstructorID: Number(instructorId),
+                cid: Number(courseId),
                 days_of_week: daysOfWeek,
-                time_of_day: timeOfDay,
-                location: location,
-                credit_hours: creditHours,
-                status: status,
-                cid: courseId,  // Assuming 'cid' is the field for CourseID
-                InstructorID: instructorId, // Assuming 'InstructorID' is the field for the Instructor's PersonID
+                time_of_day: new Date(timeOfDay),
+                location,
+                credit_hours: Number(creditHours),
+                status,
+                description,
+                capacity: Number(capacity),
+                available_seats: Number(availableSeats),
+                waitlist: Number(waitlist),
+                mode_of_instruction: modeOfInstruction,
+                start_date: new Date(startDate),
+                end_date: new Date(endDate),
+                component,
+                requirement
             },
         });
 
-        return NextResponse.json({response: newSection}, {status: 200});
+        return NextResponse.json({ response: newSection }, { status: 200 });
     } catch (error) {
         console.error("Failed to create section: ", error);
-        return NextResponse.json({response: "fail"}, {status: 500});
+        return NextResponse.json({ response: "fail" }, { status: 500 });
     }
 }
