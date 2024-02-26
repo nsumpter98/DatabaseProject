@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  PersonID   Int          @id @default(autoincrement())
+  FirstName  String?
+  LastName   String?
+  type       String?
+  Instructor Instructor[]
+  Student    Student[]
+}
+
+model Instructor {
+  PersonID Int       @id
+  Salary   Int
+  Person   Person    @relation(fields: [PersonID], references: [PersonID])
+  Section  Section[]
+}
+
+model Student {
+  PersonID       Int              @id
+  GraduationDate DateTime?
+  Person         Person           @relation(fields: [PersonID], references: [PersonID])
+  StudentProgram StudentProgram[]
+  Enrollment     Enrollment[]
+}
+
+model Course {
+  CourseID   Int       @id @default(autoincrement())
+  CourseName String?
+  Topic      String?
+  Section    Section[]
+}
+
+model Section {
+  crs_id              Int              @id @default(autoincrement())
+  InstructorID        Int
+  cid                 Int
+  days_of_week        String?
+  time_of_day         DateTime?
+  location            String?
+  credit_hours        Int?
+  status              String?
+  description         String?
+  capacity            Int?
+  available_seats     Int?
+  waitlist            Int?
+  mode_of_instruction String?
+  start_date          DateTime?
+  end_date            DateTime?
+  component           String?
+  requirement         String?
+  Instructor          Instructor       @relation(fields: [InstructorID], references: [PersonID])
+  Course              Course           @relation(fields: [cid], references: [CourseID])
+  SectionProgram      SectionProgram[]
+  Enrollment          Enrollment[]
+}
+
+model Program {
+  ProgramID      Int              @id @default(autoincrement())
+  ProgramName    String?
+  department     String?
+  StudentProgram StudentProgram[]
+  SectionProgram SectionProgram[]
+}
+
+model StudentProgram {
+  PersonID  Int
+  ProgramID Int
+  Student   Student @relation(fields: [PersonID], references: [PersonID])
+  Program   Program @relation(fields: [ProgramID], references: [ProgramID])
+
+  @@id([PersonID, ProgramID])
+}
+
+model SectionProgram {
+  crs_id    Int
+  ProgramID Int
+  Section   Section @relation(fields: [crs_id], references: [crs_id])
+  Program   Program @relation(fields: [ProgramID], references: [ProgramID])
+
+  @@id([crs_id, ProgramID])
+}
+
+model Enrollment {
+  PersonID        Int
+  crs_id          Int
+  enrollment_date DateTime?
+  Student         Student   @relation(fields: [PersonID], references: [PersonID])
+  Section         Section   @relation(fields: [crs_id], references: [crs_id])
+
+  @@id([PersonID, crs_id])
+}
