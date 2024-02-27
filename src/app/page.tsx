@@ -1,7 +1,7 @@
 import {prisma} from "../../db";
 
 
-export async function getData() {
+async function getData() {
   return prisma.section.findMany({
     select: {
       crs_id: true,
