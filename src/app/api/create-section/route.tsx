@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
                 InstructorID: Number(instructorId),
                 cid: Number(courseId),
                 days_of_week: daysOfWeek,
-                time_of_day: new Date(timeOfDay),
+                time_of_day: timeOfDay,
                 location,
                 credit_hours: Number(creditHours),
                 status,

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+export const revalidate = 0
+
 export default function CreateStudent() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

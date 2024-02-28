@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+export const revalidate = 0
+
 export default function CreateSection() {
     const [instructors, setInstructors] = useState([]);
     const [courses, setCourses] = useState([]);
