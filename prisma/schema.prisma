@@ -46,7 +46,7 @@ model Section {
   InstructorID        Int
   cid                 Int
   days_of_week        String?
-  time_of_day         DateTime?
+  time_of_day         String?
   location            String?
   credit_hours        Int?
   status              String?
