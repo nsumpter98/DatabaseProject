@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
     try {
 
 
-        const response = await axios.get('database_project_express:80/');
+        const response = await axios.get('http://database_project_express:3000/');
 
 
         return NextResponse.json({response: response}, {status: 200});
