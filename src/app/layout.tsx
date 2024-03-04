@@ -23,7 +23,7 @@ export default function RootLayout({
             <nav className="container mx-auto px-6 py-3">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
-                        <Link href={'/'} className="text-gray-600 text-xl font-semibold">University Database 1</Link>
+                        <Link href={'/'} className="text-gray-600 text-xl font-semibold">University Database</Link>
                     </div>
                     <div className="flex items-center space-x-4">
                         <a href="/create-instructor" className="text-gray-600 hover:text-gray-800">Create Instructor</a>
