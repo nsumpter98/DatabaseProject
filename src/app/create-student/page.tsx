@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const revalidate = 0
+// Opt out of caching for all data requests in the route segment
+export const dynamic = 'force-dynamic'
 
 export default function CreateStudent() {
     const [firstName, setFirstName] = useState('');

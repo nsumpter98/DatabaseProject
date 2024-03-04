@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
+// Opt out of caching for all data requests in the route segment
+export const dynamic = 'force-dynamic'
+
 export default function CreatePerson() {
 
     //GET request to /api/dev
