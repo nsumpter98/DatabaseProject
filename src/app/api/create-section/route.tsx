@@ -1,8 +1,8 @@
 // pages/api/sections/create.ts
-import { prisma } from '../../../../db' // Adjust the import path as needed
-import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '../../../../db'; // Adjust the import path as needed
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const {
       instructorId,
@@ -20,8 +20,8 @@ export async function POST (req: NextRequest) {
       startDate,
       endDate,
       component,
-      requirement
-    } = await req.json()
+      requirement,
+    } = await req.json();
 
     // Create a section
     const newSection = await prisma.section.create({
@@ -41,13 +41,13 @@ export async function POST (req: NextRequest) {
         start_date: new Date(startDate),
         end_date: new Date(endDate),
         component,
-        requirement
-      }
-    })
+        requirement,
+      },
+    });
 
-    return NextResponse.json({ response: newSection }, { status: 200 })
+    return NextResponse.json({ response: newSection }, { status: 200 });
   } catch (error) {
-    console.error('Failed to create section: ', error)
-    return NextResponse.json({ response: 'fail' }, { status: 500 })
+    console.error('Failed to create section: ', error);
+    return NextResponse.json({ response: 'fail' }, { status: 500 });
   }
 }
